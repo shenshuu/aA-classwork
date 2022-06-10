@@ -1,5 +1,4 @@
 require_relative 'tile.rb'
-#require "byebug"
 
 class Board 
 
@@ -25,10 +24,9 @@ class Board
     end
 
     def populate
-        num_bombs = 9
+        num_bombs = 12
 
         while num_bombs > 0 
-            #debugger
             bomb_pos = get_empty_spaces.sample
             self[bomb_pos].create_bomb
             mark_neighbors(bomb_pos)
@@ -51,7 +49,6 @@ class Board
         row, col = pos[0], pos[1]
         neighbors = @@offsets.map {|offset| [row + offset[0], col + offset[1]]}
         valid_neighbors = neighbors.select {|pos| valid_pos?(pos)}
-        #debugger
         valid_neighbors.each {|neighbor| self[neighbor].value += 1}
     end
 
@@ -64,7 +61,23 @@ class Board
         self[pos].value.is_a?(Integer)
     end
 
+    def render
+        # @grid.each {|row| puts row.join(" ")}
+        for i in 0...@grid.length do 
+            row = []
+            for j in 0...@grid.length do 
+                if self[[i,j]].reveal
+                    row << self[[i,j]].value 
+                else
+                    row << "_" 
+                end
+            end
+            puts row.join(" ")
+        end
+    end
+
 end
 
-# b = Board.new
-# b.populate
+b = Board.new
+b.populate
+b.render
