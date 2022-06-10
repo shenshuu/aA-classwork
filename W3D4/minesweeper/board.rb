@@ -6,7 +6,13 @@ class Board
     @@offsets = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [-1, 1], [1, -1]]
 
     def initialize
-        @grid = Array.new(9) {Array.new(9, Tile.new)}
+        @grid = Array.new(9) {Array.new(9)}
+        for i in 0...@grid.length do 
+            for j in 0...@grid.length do 
+                pos = [i, j]
+                self[pos] = Tile.new 
+            end
+        end
         @empty_spaces = @grid.length * @grid.length 
     end
 
@@ -43,7 +49,7 @@ class Board
 
     def mark_neighbors(pos)
         row, col = pos[0], pos[1]
-        neighbors = @@offsets.map {|increments| [row + increments[0], col + increments[1]]}
+        neighbors = @@offsets.map {|offset| [row + offset[0], col + offset[1]]}
         valid_neighbors = neighbors.select {|pos| valid_pos?(pos)}
         #debugger
         valid_neighbors.each {|neighbor| self[neighbor].value += 1}
@@ -60,5 +66,5 @@ class Board
 
 end
 
-b = Board.new
-b.populate
+# b = Board.new
+# b.populate
