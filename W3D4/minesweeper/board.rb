@@ -4,6 +4,7 @@ class Board
 
     @@offsets = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [-1, 1], [1, -1]]
 
+    attr_reader :remaining_spaces
     def initialize
         @grid = Array.new(9) {Array.new(9)}
         for i in 0...@grid.length do 
@@ -12,7 +13,7 @@ class Board
                 self[pos] = Tile.new 
             end
         end
-        @empty_spaces = @grid.length * @grid.length 
+        @remaining_spaces = @grid.length * @grid.length 
         self.populate
     end
 
@@ -25,13 +26,13 @@ class Board
     end
 
     def populate
-        num_bombs = 20
+        num_bombs = 15
 
         while num_bombs > 0 
             bomb_pos = get_empty_spaces.sample
             self[bomb_pos].create_bomb
             mark_neighbors(bomb_pos)
-            @empty_spaces -= 1
+            @remaining_spaces -= 1
             num_bombs -= 1
         end
     end
@@ -47,7 +48,8 @@ class Board
     end
 
     def fill(pos)
-        return if @grid[pos] != 0
+        return if @grid[pos] != 0 || !valid_pos?(pos)
+        @remaining_spaces -= 1
         @grid[pos].reveal, @grid[pos] = true, "_"
         neighbors = @@offsets.map {|offset| [pos[0] + offset[0], pos[1] + offset[1]]}
         neighbors.each {|tile_pos| fill(tile_pos)}
@@ -56,13 +58,13 @@ class Board
     def mark_neighbors(pos)
         row, col = pos[0], pos[1]
         neighbors = @@offsets.map {|offset| [row + offset[0], col + offset[1]]}
-        valid_neighbors = neighbors.select {|pos| valid_pos?(pos)}
+        valid_neighbors = neighbors.select {|pos| valid_pos?(pos) && empty?(pos)}
         valid_neighbors.each {|neighbor| self[neighbor].value += 1}
     end
 
     def valid_pos?(pos)
         row, col = pos[0], pos[1]
-        return row >= 0 && row < @grid.length && col >= 0 && col < @grid.length && empty?(pos)
+        return row >= 0 && row < @grid.length && col >= 0 && col < @grid.length
     end 
     
     def empty?(pos)
