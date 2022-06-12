@@ -26,8 +26,22 @@ class Minesweeper
         move.is_a?(Array) &&
         move[0].is_a?(Integer) &&
         move[1].is_a?(Integer) &&
-        @game.valid_pos?(move)
+        @game.valid_pos?(move) &&
+        !self[move].reveal
     end
 
-    
+    def won?
+        @game.remaining_spaces == 0
+    end
+
+    def play 
+        while !won?
+            pos = make_move 
+            @game.fill(pos) if self[pos].value == 0
+            break if self[pos].bomb 
+            system("clear")
+            @game.render 
+        end
+    end
+
 end 
