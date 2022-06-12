@@ -13,6 +13,7 @@ class Board
             end
         end
         @empty_spaces = @grid.length * @grid.length 
+        self.populate
     end
 
     def [](pos)
@@ -24,7 +25,7 @@ class Board
     end
 
     def populate
-        num_bombs = 12
+        num_bombs = 20
 
         while num_bombs > 0 
             bomb_pos = get_empty_spaces.sample
@@ -43,6 +44,13 @@ class Board
             end
         end
         empty_spaces
+    end
+
+    def fill(pos)
+        return if @grid[pos] != 0
+        @grid[pos].reveal, @grid[pos] = true, "_"
+        neighbors = @@offsets.map {|offset| [pos[0] + offset[0], pos[1] + offset[1]]}
+        neighbors.each {|tile_pos| fill(tile_pos)}
     end
 
     def mark_neighbors(pos)
@@ -69,13 +77,12 @@ class Board
                 if self[[i,j]].reveal
                     row << self[[i,j]].value 
                 else
-                    row << "_" 
+                    row << "*" 
                 end
             end
             puts row.join(" ")
         end
     end
-
 end
 
 b = Board.new
