@@ -3,7 +3,6 @@ class Minesweeper
 
     def initialize
         @game = Board.new 
-        @remaining_spaces = @game.remaining_spaces
     end
 
     def flag(pos)
@@ -30,7 +29,5 @@ class Minesweeper
         @game.valid_pos?(move)
     end
 
-    # def play 
-
-    # end
+    
 end 
