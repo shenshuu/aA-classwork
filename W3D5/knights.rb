@@ -1,11 +1,13 @@
 require_relative "treenode.rb"
 require "set"
+# require 'byebug'
+
 class KnightPathFinder
     
     @@offsets = [[2,1], [1,2], [-1,2], [-2,1], [-2,-1], [-1,-2], [1,-2], [2,-1]]
     
     def initialize(pos)
-        @considered_positions = [pos]
+        @considered_positions = Set.new([pos])
         @pos = pos 
     end
     
@@ -27,7 +29,6 @@ class KnightPathFinder
 
     def build_move_tree 
         root = PolyTreeNode.new(@pos)
-        seen_pos = Set.new(@pos)
         head = root 
         queue = [root]
 
@@ -35,12 +36,9 @@ class KnightPathFinder
             root = queue.shift 
             new_positions = new_move_positions(root.value)
             new_positions.each do |pos|
-                next if seen_pos.include?(pos)
                 child = PolyTreeNode.new(pos)
                 child.parent = root 
                 queue << child 
-                seen_pos.add(pos)
-                p child 
             end
         end
         head 
@@ -58,13 +56,11 @@ class KnightPathFinder
             path << node.value
             node = node.parent
         end
+        path << [@pos]
         path.reverse
     end
 end
 
 k = KnightPathFinder.new([0,0])
-k.new_move_positions([0,0])
-# k.build_move_tree
-s = Set.new
-s.add([0,0])
-p s.include?([0,0])
+p k.find_path([7,6])
+# p k.find_path([6,2])
