@@ -1,0 +1,8 @@
+<h1>Albums</h1>
+<% @albums.each do |album| %>
+    <h3><%= album.title %></h3>
+    <ul>
+        <li><%= album.year %></li>
+        <li><%= album.live %></li>
+    </ul>
+<% end %>

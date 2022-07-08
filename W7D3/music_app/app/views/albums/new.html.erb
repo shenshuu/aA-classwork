@@ -1,0 +1,22 @@
+<h1>Create Album</h1>
+
+<form action="" method="POST">
+    <label for="title">Title: </label>
+    <input type="text" name="album[title]">
+    <br>
+    <label for="live">live:</label>
+    <input type="radio" name="album[radio]">
+    <label for="studio">studio:</label>
+    <input type="radio" name="album[radio]" checked>
+    <br>
+    <label for="year">Year:</label>
+    <input type="number" name="album[year]" min="1900" max="2022">
+    <br>
+    <label for="band">Band:</label>
+    <select name="album[band_id]">
+        <% @bands.each do |band| %>
+            <option value="<%= band.id %>"><%= band.name %></option>
+        <% end %>
+    </select>
+    <input type="submit" value="Add Album">
+</form>
