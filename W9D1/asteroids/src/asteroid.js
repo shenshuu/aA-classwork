@@ -3,7 +3,7 @@ const Util = require("./util");
 
 const DEFAULTS = {
     COLOR: 'black',
-    RADIUS: 10,
+    RADIUS: 25,
     SPEED: 10,
 };
 
