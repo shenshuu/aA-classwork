@@ -6,9 +6,6 @@ function MovingObject(options) {
 };
 
 MovingObject.prototype.draw = function(ctx) {
-    
-    const canvas = document.getElementById('game-canvas');
-    ctx = canvas.getContext('2d');
     ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2*Math.PI);
@@ -16,6 +13,7 @@ MovingObject.prototype.draw = function(ctx) {
 }
 
 MovingObject.prototype.move = function() {
+    // update velocity 
     this.pos[0] += this.vel[0];
     this.pos[1] += this.vel[1];
 }

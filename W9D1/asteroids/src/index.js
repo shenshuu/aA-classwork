@@ -1,18 +1,14 @@
+
 const MovingObject = require("./moving_object.js");
 const Util = require("./util.js");
-window.MovingObject = MovingObject;
-const mo = new MovingObject({
-    pos: [30, 30],
-    vel: [10, 10],
-    radius: 5,
-    color: "red"
-  });
+const Asteroid = require("./asteroid.js");
+const Game = require("./game.js");
+const GameView = require("./game_view.js")
+window.addEventListener('DOMContentLoaded', (event) => {
+  const canvas = document.getElementById('game-canvas')
+  const ctx = canvas.getContext('2d');
+  
 
-function Dummy() {}
-
-Util.inherits(Dummy, MovingObject);
-const dummy = new Dummy()
-console.log(dummy);
-mo.draw(mo);
-mo.move()
-console.log(mo.pos);
+  const gameView = new GameView(new Game(), ctx);
+  gameView.start();
+});
