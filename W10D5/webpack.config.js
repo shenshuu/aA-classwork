@@ -4,7 +4,7 @@ var path = require('path');
 module.exports = {
   entry: './frontend/widgets.jsx',
   output: {
-    filename: './bundle.js',
+    filename: 'bundle.js',
   },
   module: {
     rules: [
